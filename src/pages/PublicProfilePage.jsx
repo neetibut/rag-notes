@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPublicProfile, getPublicNotes } from "../services/profileService";
+import NotesChat from "../components/notes/NotesChat";
 
 const PublicProfilePage = () => {
   const { userId } = useParams(); // Get user ID from the URL
@@ -40,7 +41,7 @@ const PublicProfilePage = () => {
         {profile.fullName}'s Public Profile
       </h1>
       <p className="text-gray-600 mb-6">Email: {profile.email}</p>
-
+      <NotesChat userId={userId} />
       <h2 className="text-2xl font-bold mb-4">Public Notes</h2>
       {notes.length === 0 ? (
         <p className="text-gray-600">No public notes available.</p>

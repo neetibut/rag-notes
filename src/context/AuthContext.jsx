@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
     const fetchProfile = async () => {
       try {
         const response = await api.get("/mongo/auth/profile");
+        console.log(response);
         setUser(response.data.user); // Restore user state
       } catch (err) {
         console.error("Not authenticated:", err);

@@ -21,6 +21,7 @@ const LoginPage = () => {
     try {
       const data = await loginUser(email, password);
       setUser(data.user); // Save user to AuthContext
+      console.log(data);
       navigate("/dashboard"); // Redirect after successful login
     } catch (err) {
       console.error(err);
