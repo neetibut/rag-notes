@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading indicator while restoring session
+    return <div className="text-center mt-10 text-xl">Loading...</div>; // Show loading indicator while restoring session
   }
 
   return (

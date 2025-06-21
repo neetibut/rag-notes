@@ -10,7 +10,7 @@ const Navbar = () => {
           to={user ? "/dashboard" : "/"}
           className="text-xl font-bold text-blue-600"
         >
-          📒 NotesApp
+          📒 RAG Notes 
         </Link>
       </div>
 
