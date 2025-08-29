@@ -15,29 +15,39 @@ const NoteCard = ({ note, onDelete }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-5 flex flex-col justify-between hover:shadow-lg transition-shadow duration-300">
+    <div className="bg-white border-4 border-black rounded-2xl p-6 flex flex-col justify-between shadow-[6px_6px_0_0_#000] hover:shadow-[10px_10px_0_0_#000] transition-all duration-200">
       <div>
-        {/* Pinned Icon */}
+        {/* Pinned Icon
         {note.isPinned && (
           <div className="flex items-center mb-2">
-            <span className="text-yellow-500 text-sm font-bold">📌 Pinned</span>
+            <span className="text-yellow-600 text-base font-extrabold border-2 border-black rounded px-2 py-1 bg-yellow-200 ">📌 Pinned</span>
           </div>
-        )}
+        )} */}
 
         {/* Title */}
-        <h2 className="text-xl font-bold mb-2 text-gray-800 truncate">
+        <h2 className="text-2xl font-extrabold mb-3 text-black border-2 border-black rounded-lg bg-pink-200 px-2 py-1  truncate">
           {note.title}
         </h2>
 
         {/* Content */}
-        <p className="text-gray-600 text-sm line-clamp-4">{note.content}</p>
-
+        <p className="text-black text-base font-mono bg-yellow-50 border-2 border-black rounded-lg px-2 py-2 mt-2  line-clamp-4 overflow-y-auto">{note.content}</p>
+ <div className="mt-4 flex flex-wrap gap-2">
+         
+          
+              {note.isPinned &&  <span
+      
+              className="bg-yellow-200 border-2 border-black text-black text-xs font-bold px-3 py-1 rounded-full font-mono"
+            >📌 Pinned</span>}
+           
+      
+        </div>
+        
         {/* Tags */}
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           {note.tags.map((tag, index) => (
             <span
               key={index}
-              className="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded-full"
+              className="bg-blue-200 border-2 border-black text-black text-xs font-bold px-3 py-1 rounded-full font-mono"
             >
               #{tag}
             </span>
@@ -46,37 +56,35 @@ const NoteCard = ({ note, onDelete }) => {
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between mt-4 text-xs text-gray-400">
+      <div className="flex items-center justify-between mt-6 text-xs text-black font-mono">
         {/* Created Date */}
-        <span>Created on: {new Date(note.createdOn).toLocaleDateString()}</span>
+        <span className=" px-2 py-1">Created on: {new Date(note.createdOn).toLocaleDateString()}</span>
 
         {/* Actions */}
-        <div className="flex space-x-2 items-center">
+        <div className="flex-col space-x-2 space-y-2 items-center">
+          <div className="flex gap-x-1">
           <Link
             to={`/notes/${note._id}`}
-            className="text-blue-500 hover:underline"
+            className="font-bold text-blue-700 bg-white border-2 border-black rounded px-2 py-1 shadow-[1px_1px_0_0_#000] hover:bg-blue-200 transition"
           >
-            View Details
+            View
           </Link>
           <Link
             to={`/notes/${note._id}`}
-            className="text-green-500 hover:underline"
+            className="font-bold text-green-700 bg-white border-2 border-black rounded px-2 py-1 shadow-[1px_1px_0_0_#000] hover:bg-green-200 transition"
           >
             Edit
           </Link>
           <button
             onClick={() => onDelete(note._id)}
-            className="text-red-500 hover:underline"
+            className="cursor-pointer font-bold text-red-700 bg-white border-2 border-black rounded px-2 py-1 shadow-[1px_1px_0_0_#000] hover:bg-red-200 transition"
           >
             Delete
           </button>
+</div>
           <button
             onClick={handleToggleVisibility}
-            className={`${
-              isPublic
-                ? "text-yellow-500 hover:text-yellow-700"
-                : "text-gray-500 hover:text-gray-700"
-            } transition`}
+            className={`cursor-pointer font-bold border-2 border-black rounded px-2 py-1 shadow-[1px_1px_0_0_#000] transition ${isPublic ? 'bg-yellow-200 text-yellow-700 hover:bg-yellow-300' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
           >
             {isPublic ? "Unpublish" : "Publish"}
           </button>

@@ -40,30 +40,30 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">
+    <div className="flex items-center justify-center min-h-screen bg-blue-200">
+      <div className="bg-white border-4 border-black rounded-2xl shadow-[8px_8px_0_0_#000] w-full max-w-md p-10">
+        <h2 className="text-3xl font-extrabold text-black text-center mb-8 border-4 border-black rounded-lg bg-green-200 py-3">
           Create Your Account
         </h2>
 
         {error && (
-          <div className="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-center">
+          <div className="bg-red-200 text-red-900 border-2 border-black rounded-lg px-4 py-2 mb-4 text-center shadow-[2px_2px_0_0_#000] font-mono">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSignup} className="space-y-4">
+        <form onSubmit={handleSignup} className="space-y-6">
           <div>
             <label
               htmlFor="fullName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-base font-bold text-black mb-1"
             >
               Full Name
             </label>
             <input
               id="fullName"
               type="text"
-              className="mt-1 block w-full p-2 border rounded-md focus:ring focus:ring-blue-300"
+              className="block w-full p-3 border-4 border-black rounded-lg bg-yellow-50 shadow-[2px_2px_0_0_#000] focus:ring-2 focus:ring-green-300 font-mono text-black"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               required
@@ -74,14 +74,14 @@ const SignupPage = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-base font-bold text-black mb-1"
             >
               Email Address
             </label>
             <input
               id="email"
               type="email"
-              className="mt-1 block w-full p-2 border rounded-md focus:ring focus:ring-blue-300"
+              className="block w-full p-3 border-4 border-black rounded-lg bg-yellow-50 shadow-[2px_2px_0_0_#000] focus:ring-2 focus:ring-green-300 font-mono text-black"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -92,14 +92,14 @@ const SignupPage = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-base font-bold text-black mb-1"
             >
               Password
             </label>
             <input
               id="password"
               type="password"
-              className="mt-1 block w-full p-2 border rounded-md focus:ring focus:ring-blue-300"
+              className="block w-full p-3 border-4 border-black rounded-lg bg-yellow-50 shadow-[2px_2px_0_0_#000] focus:ring-2 focus:ring-green-300 font-mono text-black"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -110,14 +110,14 @@ const SignupPage = () => {
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-base font-bold text-black mb-1"
             >
               Confirm Password
             </label>
             <input
               id="confirmPassword"
               type="password"
-              className="mt-1 block w-full p-2 border rounded-md focus:ring focus:ring-blue-300"
+              className="block w-full p-3 border-4 border-black rounded-lg bg-yellow-50 shadow-[2px_2px_0_0_#000] focus:ring-2 focus:ring-green-300 font-mono text-black"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
@@ -127,15 +127,15 @@ const SignupPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition duration-300"
+            className="cursor-pointer w-full bg-green-300 border-4 border-black text-black font-extrabold py-3 rounded-lg shadow-[2px_2px_0_0_#000] hover:bg-green-400 transition-all duration-200"
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-4">
+        <p className="text-center text-base text-black mt-6 font-mono">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline">
+          <Link to="/login" className="text-blue-700 font-bold underline hover:text-blue-900">
             Log in
           </Link>
         </p>
