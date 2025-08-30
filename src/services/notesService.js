@@ -1,9 +1,11 @@
 import api from "./api"; // Our Axios instance withCredentials=true
 
-// Fetch all notes for the logged-in user
-export const getMyNotes = async () => {
-  const response = await api.get("/mongo/get-all-notes");
-  return response.data;
+// Fetch notes for the logged-in user with optional pagination and search
+export const getMyNotes = async ({ page = 1, limit = 10, q } = {}) => {
+  const params = { page, limit };
+  if (q && String(q).trim()) params.q = q.trim();
+  const response = await api.get("/mongo/get-all-notes", { params });
+  return response.data; // { error, notes, page, limit, total, totalPages, message }
 };
 
 // Fetch a single note by ID
@@ -31,11 +33,9 @@ export const deleteNote = async (noteId) => {
 };
 
 // Search notes by title, content, or tags
-export const searchNotes = async (query) => {
-  const response = await api.get(
-    `/mongo/search-notes?query=${encodeURIComponent(query)}`
-  );
-  return response.data;
+// Backward-compatible search wrapper; now delegates to paginated endpoint
+export const searchNotes = async (query, { page = 1, limit = 10 } = {}) => {
+  return getMyNotes({ page, limit, q: query });
 };
 
 // Update note visibility (publish/unpublish)
