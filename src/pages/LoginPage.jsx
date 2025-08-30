@@ -21,7 +21,6 @@ const LoginPage = () => {
     try {
       const data = await loginUser(email, password);
       setUser(data.user); // Save user to AuthContext
-      console.log(data);
       navigate("/dashboard"); // Redirect after successful login
     } catch (err) {
       console.error(err);
@@ -93,7 +92,10 @@ const LoginPage = () => {
 
         <p className="text-center text-base text-black mt-6 font-mono">
           Don't have an account?{" "}
-          <a href="/signup" className="text-blue-700 font-bold underline hover:text-blue-900">
+          <a
+            href="/signup"
+            className="text-blue-700 font-bold underline hover:text-blue-900"
+          >
             Sign up
           </a>
         </p>
