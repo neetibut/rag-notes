@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { deleteNote, getMyNotes, searchNotes } from "../services/notesService";
 import NoteCard from "../components/notes/NoteCard";
@@ -6,17 +7,29 @@ import CreateNote from "./CreateNote";
 
 const DashboardPage = () => {
   const { user } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [notes, setNotes] = useState([]);
   const [loadingNotes, setLoadingNotes] = useState(true);
   const [error, setError] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(() => searchParams.get("q") || "");
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   // pagination state
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [page, setPage] = useState(() => Math.max(1, parseInt(searchParams.get("page") || "1", 10)));
+  const [pageSize, setPageSize] = useState(() => {
+    const v = parseInt(searchParams.get("limit") || "5", 10);
+    return Number.isNaN(v) ? 5 : v;
+  });
   const [total, setTotal] = useState(0);
 
   const totalPages = Math.max(1, Math.ceil((total || 0) / pageSize));
+
+  const setURLParams = useCallback((p, l, q) => {
+    const params = new URLSearchParams();
+    params.set("page", String(p));
+    params.set("limit", String(l));
+    if (q && q.trim()) params.set("q", q.trim());
+    setSearchParams(params, { replace: true });
+  }, [setSearchParams]);
 
   const fetchNotes = useCallback(
     async (nextPage = page, nextLimit = pageSize, q = searchQuery) => {
@@ -30,6 +43,8 @@ const DashboardPage = () => {
         if (typeof data.total === "number") setTotal(data.total);
         if (typeof data.page === "number") setPage(data.page);
         if (typeof data.limit === "number") setPageSize(data.limit);
+        // reflect current state in URL
+        setURLParams(nextPage, nextLimit, q);
       } catch (err) {
         console.error(err);
         setError("Failed to load notes.");
@@ -37,7 +52,7 @@ const DashboardPage = () => {
         setLoadingNotes(false);
       }
     },
-    [page, pageSize, searchQuery]
+  [page, pageSize, searchQuery, setURLParams]
   );
 
   const handleDeleteNote = async (noteId) => {
@@ -53,7 +68,8 @@ const DashboardPage = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) {
-      fetchNotes(1, pageSize);
+  setURLParams(1, pageSize, undefined);
+  fetchNotes(1, pageSize);
       return;
     }
 
@@ -63,6 +79,7 @@ const DashboardPage = () => {
       if (typeof data.total === "number") setTotal(data.total);
       if (typeof data.page === "number") setPage(data.page);
       if (typeof data.limit === "number") setPageSize(data.limit);
+  setURLParams(1, pageSize, searchQuery);
     } catch (err) {
       console.error("Failed to search notes:", err);
       setError("Failed to search notes.");
@@ -84,7 +101,14 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    fetchNotes(1, pageSize);
+    const p = Math.max(1, parseInt(searchParams.get("page") || String(page), 10));
+    const lRaw = parseInt(searchParams.get("limit") || String(pageSize), 10);
+    const l = Number.isNaN(lRaw) ? pageSize : lRaw;
+    const q = searchParams.get("q") || "";
+    setPage(p);
+    setPageSize(l);
+    setSearchQuery(q);
+    fetchNotes(p, l, q);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
