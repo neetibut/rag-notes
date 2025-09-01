@@ -42,13 +42,13 @@ const NotesChat = ({ userId }) => {
           className="w-full p-3 border-4 border-black rounded-lg bg-yellow-50 shadow-[2px_2px_0_0_#000] font-mono text-black"
           required
         />
-        <Link
+        <button
           type="submit"
           disabled={loading}
           className="bg-blue-300 border-4 border-black text-black font-extrabold px-6 py-3 rounded-lg shadow-[2px_2px_0_0_#000] hover:bg-blue-400 transition-all duration-200 w-full"
         >
           {loading ? "Asking..." : "Ask"}
-        </Link>
+        </button>
       </form>
 
       {error && <p className="text-red-500 mt-4 font-mono">{error}</p>}
