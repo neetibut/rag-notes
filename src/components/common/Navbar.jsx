@@ -4,13 +4,14 @@ import { useAuth } from "../../context/AuthContext";
 const Navbar = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
-  const isAuthRoute = location.pathname === "/login" || location.pathname === "/signup";
+  const isAuthRoute =
+    location.pathname === "/login" || location.pathname === "/signup";
   return (
     <nav className="bg-yellow-200 border-b-4 border-black px-8 py-4 flex items-center justify-between">
       <div className="flex items-center space-x-4">
         <Link
           to={user ? "/dashboard" : "/"}
-          className="text-2xl font-extrabold text-black px-4 py-2 border-4 border-black rounded-lg bg-white hover:bg-pink-200 transition"
+          className="text-xs md:text-2xl font-extrabold text-black px-2 py-2 border-4 border-black rounded-lg bg-white hover:bg-pink-200 transition"
         >
           📒 RAG Notes
         </Link>

@@ -1,19 +1,5 @@
 import api from "./api"; // Our Axios instance withCredentials=true
 
-// Fetch notes for the logged-in user with optional pagination and search
-export const getMyNotes = async ({ page = 1, limit = 10, q } = {}) => {
-  const params = { page, limit };
-  if (q && String(q).trim()) params.q = q.trim();
-  const response = await api.get("/mongo/get-all-notes", { params });
-  return response.data; // { error, notes, page, limit, total, totalPages, message }
-};
-
-// Fetch a single note by ID
-export const getNoteById = async (noteId) => {
-  const response = await api.get(`/mongo/get-note/${noteId}`);
-  return response.data;
-};
-
 // Create a new note
 export const createNote = async (noteData) => {
   const response = await api.post("/mongo/add-note", noteData);
@@ -26,6 +12,14 @@ export const updateNote = async (noteId, updatedData) => {
   return response.data;
 };
 
+// Fetch notes for the logged-in user with optional pagination and search
+export const getMyNotes = async ({ page = 1, limit = 10, q } = {}) => {
+  const params = { page, limit };
+  if (q && String(q).trim()) params.q = q.trim();
+  const response = await api.get("/mongo/get-all-notes", { params });
+  return response.data; // { error, notes, page, limit, total, totalPages, message }
+};
+
 // Delete a note
 export const deleteNote = async (noteId) => {
   const response = await api.delete(`/mongo/delete-note/${noteId}`);
@@ -36,6 +30,12 @@ export const deleteNote = async (noteId) => {
 // Backward-compatible search wrapper; now delegates to paginated endpoint
 export const searchNotes = async (query, { page = 1, limit = 10 } = {}) => {
   return getMyNotes({ page, limit, q: query });
+};
+
+// Fetch a single note by ID
+export const getNoteById = async (noteId) => {
+  const response = await api.get(`/mongo/get-note/${noteId}`);
+  return response.data;
 };
 
 // Update note visibility (publish/unpublish)
