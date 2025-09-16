@@ -34,10 +34,16 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await api.post("/mongo/auth/logout");
+      // Clear localStorage token on logout
+      localStorage.removeItem("authToken");
       setUser(null);
       navigate("/login"); // Redirect to login page after logout
     } catch (err) {
       console.error("Logout failed:", err);
+      // Still clear localStorage even if API call fails
+      localStorage.removeItem("authToken");
+      setUser(null);
+      navigate("/login");
     }
   };
 

@@ -5,11 +5,21 @@ export const loginUser = async (email, password) => {
     email,
     password,
   });
+
+  // Store token in localStorage as fallback for mobile browsers
+  if (response.data.token) {
+    localStorage.setItem("authToken", response.data.token);
+  }
+
   return response.data;
 };
 
 export const logoutUser = async () => {
   const response = await api.post("/mongo/auth/logout");
+
+  // Clear localStorage token on logout
+  localStorage.removeItem("authToken");
+
   return response.data;
 };
 
